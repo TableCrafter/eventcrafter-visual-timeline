@@ -1,0 +1,120 @@
+/* EventCrafter Basic Styles */
+:root {
+    --ec-primary: #3b82f6;
+    --ec-bg: #ffffff;
+    --ec-text: #1f2937;
+    --ec-date: #6b7280;
+    --ec-line: #e5e7eb;
+}
+
+.eventcrafter-wrapper {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Vertical Layout */
+.eventcrafter-layout-vertical .eventcrafter-timeline {
+    position: relative;
+    padding: 20px 0;
+}
+
+/* Central Line */
+.eventcrafter-layout-vertical .eventcrafter-timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 20px; /* Adjust for marker center */
+    width: 2px;
+    background: var(--ec-line);
+}
+
+.eventcrafter-item {
+    position: relative;
+    margin-bottom: 30px;
+    padding-left: 50px; /* Space for marker */
+}
+
+.eventcrafter-marker {
+    position: absolute;
+    left: 11px; /* Center on line (20px left + 1px center - 10px half width) */
+    top: 0;
+    width: 20px;
+    height: 20px;
+    background: var(--ec-bg);
+    border: 3px solid var(--event-color, var(--ec-primary));
+    border-radius: 50%;
+    z-index: 2;
+}
+
+.eventcrafter-content {
+    background: var(--ec-bg);
+    border: 1px solid var(--ec-line);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid var(--event-color, var(--ec-primary));
+}
+
+.eventcrafter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.eventcrafter-date {
+    font-weight: 600;
+    color: var(--ec-date);
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.eventcrafter-category {
+    background: #f3f4f6;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    color: var(--ec-text);
+}
+
+.eventcrafter-title {
+    margin: 0 0 10px 0;
+    color: var(--ec-text);
+    font-size: 1.25em;
+}
+
+.eventcrafter-description {
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+.eventcrafter-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--event-color, var(--ec-primary));
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.eventcrafter-link:hover {
+    text-decoration: underline;
+}
+
+/* Error/Info Messages */
+.eventcrafter-error, .eventcrafter-info {
+    padding: 15px;
+    border-radius: 6px;
+    text-align: center;
+}
+.eventcrafter-error {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+.eventcrafter-info {
+    background: #dbeafe;
+    color: #1e40af;
+}
