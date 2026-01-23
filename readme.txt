@@ -3,7 +3,7 @@ Contributors: fahdi
 Tags: timeline, json, roadmap, history, events
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,6 +46,11 @@ You can set specific colors for each event directly within the Visual Builder.
 2. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.1.4 =
+* **Tests**: Added comprehensive security tests for admin save function.
+* **Tests**: Added PHPUnit configuration file.
+* **Chore**: Updated composer dependencies (Brain Monkey).
 
 = 1.1.3 =
 * **Fix**: Security improvements (nonce verification, input sanitization).
