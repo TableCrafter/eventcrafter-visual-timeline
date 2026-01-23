@@ -26,6 +26,47 @@ jQuery(document).ready(function($) {
     initColorPickers();
 
     // Event Handlers
+    $('#ec-copy-shortcode').on('click', function() {
+        var $btn = $(this);
+        var originalText = $btn.text();
+        var code = $('#ec-shortcode-preview').text();
+        
+        var success = function() {
+            $btn.text('Copied!');
+            $btn.removeClass('button-secondary').addClass('button-primary');
+            setTimeout(function() { 
+                $btn.text(originalText); 
+                $btn.removeClass('button-primary').addClass('button-secondary'); // Assuming it started as secondary or default
+            }, 2000);
+        };
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(code).then(success).catch(function() {
+                // Fallback if promise fails
+                fallbackCopy(code, success);
+            });
+        } else {
+            fallbackCopy(code, success);
+        }
+    });
+
+    function fallbackCopy(text, callback) {
+        var textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed"; // Prevent scrolling
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+            document.execCommand("copy");
+            if (callback) callback();
+        } catch (err) {
+            console.error('Fallback copy failed', err);
+            alert('Could not copy text. Please select and copy manually.');
+        }
+        document.body.removeChild(textarea);
+    }
+
     $('#ec-add-event').on('click', function() {
         var newEvent = {
             id: Date.now(),
@@ -102,11 +143,39 @@ jQuery(document).ready(function($) {
     }
 
     function initColorPickers() {
-        $('.ec-input-color').wpColorPicker({
-            change: function(event, ui) {
-                // Trigger change event to update state
-                $(this).trigger('change');
-            }
+        if (!$.fn.wpColorPicker) return;
+
+        $('.ec-input-color').each(function() {
+            var $input = $(this);
+            // Verify if already initialized to avoid double init (though renderEvents uses empty() so likely safe)
+            if ($input.hasClass('wp-color-picker-initialized')) return;
+
+            $input.wpColorPicker({
+                change: function(event, ui) {
+                    // Direct state update to avoid bubbling issues
+                    var color = ui.color.toString();
+                    var $card = $(this).closest('.ec-event-card');
+                    var id = $card.data('id');
+                    var eventObj = currentState.events.find(function(ev) { return ev.id == id; });
+                    
+                    if (eventObj) {
+                        eventObj.color = color;
+                        // Also update the input value physically just in case
+                        $(this).val(color);
+                        updateStorage();
+                    }
+                },
+                clear: function() {
+                    // Handle clear if needed
+                    var $card = $(this).closest('.ec-event-card');
+                    var id = $card.data('id');
+                    var eventObj = currentState.events.find(function(ev) { return ev.id == id; });
+                    if (eventObj) {
+                         eventObj.color = '';
+                         updateStorage();
+                    }
+                }
+            }).addClass('wp-color-picker-initialized');
         });
     }
 
