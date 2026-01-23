@@ -60,10 +60,10 @@ class EventCrafter_Admin
                 );
             }
         }
-        
+
         // Enqueue on List Table for Copy Button
         if ($hook === 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] === 'ec_timeline') {
-             wp_enqueue_script(
+            wp_enqueue_script(
                 'eventcrafter-admin-list-js',
                 EVENTCRAFTER_URL . 'assets/js/admin-script.js',
                 array('jquery'),
@@ -88,6 +88,9 @@ class EventCrafter_Admin
 
         // Hidden input to store the JSON
         echo '<input type="hidden" id="ec_timeline_data" name="ec_timeline_data" value="' . esc_attr($json_data) . '">';
+
+        // Nonce for security
+        wp_nonce_field('ec_save_timeline_data', 'ec_timeline_nonce');
 
         // The Builder Interface Container
         ?>
@@ -115,8 +118,10 @@ class EventCrafter_Admin
                         <p class="ec-empty-state">No events yet. Click "Add Event" to start building your timeline.</p>
                     </div>
                 </div>
-                <div class="ec-preview-column" style="flex: 1; min-width: 300px; background: #fff; padding: 20px; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                    <h3 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Live Preview</h3>
+                <div class="ec-preview-column"
+                    style="flex: 1; min-width: 300px; background: #fff; padding: 20px; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <h3 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Live
+                        Preview</h3>
                     <div id="ec-live-preview">
                         <!-- Live Preview Rendered Here -->
                     </div>
@@ -126,57 +131,71 @@ class EventCrafter_Admin
 
         <!-- Template for Event Item (Hidden) -->
         <script type="text/template" id="tmpl-ec-event">
-                            <div class="ec-event-card" data-id="{{id}}">
-                                <div class="ec-event-header">
-                                    <span class="ec-drag-handle">☰</span>
-                                    <span class="ec-event-preview-title">{{title}}</span>
-                                    <span class="ec-event-preview-date">{{date}}</span>
-                                    <div class="ec-event-actions">
-                                        <button type="button" class="button-link ec-toggle-edit">Edit</button>
-                                        <button type="button" class="button-link ec-delete-event" style="color: #b32d2e;">Delete</button>
-                                    </div>
-                                </div>
-                                <div class="ec-event-body" style="display:none;">
-                                    <div class="ec-field-row">
-                                        <label>Date</label>
-                                        <input type="text" class="widefat ec-input-date" value="{{date}}" placeholder="YYYY-MM-DD or Year">
-                                    </div>
-                                    <div class="ec-field-row">
-                                        <label>Title</label>
-                                        <input type="text" class="widefat ec-input-title" value="{{title}}" placeholder="Event Title">
-                                    </div>
-                                    <div class="ec-field-row">
-                                        <label>Description</label>
-                                        <textarea class="widefat ec-input-desc" rows="3">{{description}}</textarea>
-                                    </div>
-                                    <div class="ec-field-row">
-                                         <label>Color</label>
-                                         <input type="text" class="ec-input-color" value="{{color}}" data-default-color="#3b82f6">
-                                    </div>
-                                     <div class="ec-field-row">
-                                        <label>Category</label>
-                                        <input type="text" class="widefat ec-input-category" value="{{category}}" placeholder="e.g. Milestone">
-                                    </div>
-                                </div>
-                            </div>
-                        </script>
+                                            <div class="ec-event-card" data-id="{{id}}">
+                                                <div class="ec-event-header">
+                                                    <span class="ec-drag-handle">☰</span>
+                                                    <span class="ec-event-preview-title">{{title}}</span>
+                                                    <span class="ec-event-preview-date">{{date}}</span>
+                                                    <div class="ec-event-actions">
+                                                        <button type="button" class="button-link ec-toggle-edit">Edit</button>
+                                                        <button type="button" class="button-link ec-delete-event" style="color: #b32d2e;">Delete</button>
+                                                    </div>
+                                                </div>
+                                                <div class="ec-event-body" style="display:none;">
+                                                    <div class="ec-field-row">
+                                                        <label>Date</label>
+                                                        <input type="text" class="widefat ec-input-date" value="{{date}}" placeholder="YYYY-MM-DD or Year">
+                                                    </div>
+                                                    <div class="ec-field-row">
+                                                        <label>Title</label>
+                                                        <input type="text" class="widefat ec-input-title" value="{{title}}" placeholder="Event Title">
+                                                    </div>
+                                                    <div class="ec-field-row">
+                                                        <label>Description</label>
+                                                        <textarea class="widefat ec-input-desc" rows="3">{{description}}</textarea>
+                                                    </div>
+                                                    <div class="ec-field-row">
+                                                         <label>Color</label>
+                                                         <input type="text" class="ec-input-color" value="{{color}}" data-default-color="#3b82f6">
+                                                    </div>
+                                                     <div class="ec-field-row">
+                                                        <label>Category</label>
+                                                        <input type="text" class="widefat ec-input-category" value="{{category}}" placeholder="e.g. Milestone">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </script>
         <?php
     }
 
     public function save_timeline_data($post_id)
     {
         // Check verification, permissions, autosave, etc.
-        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE)
+        if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
             return;
-        if (!current_user_can('edit_post', $post_id))
+        }
+
+        // Verify Nonce
+        if (!isset($_POST['ec_timeline_nonce']) || !wp_verify_nonce($_POST['ec_timeline_nonce'], 'ec_save_timeline_data')) {
             return;
+        }
+
+        if (!current_user_can('edit_post', $post_id)) {
+            return;
+        }
 
         if (isset($_POST['ec_timeline_data'])) {
-            // Sanitize JSON string (we will validate structure in renderer, but saving raw JSON is okay here as long as we treat it carefully on output)
-            // Ideally we decode and sanitize recursively, but for MVP saving the JSON string is standard.
-            // Using wp_kses_post or similar might break JSON quotes. 
-            // We'll treat it as a blob.
-            update_post_meta($post_id, '_ec_timeline_data', $_POST['ec_timeline_data']);
+            // Unslash first
+            $raw_json = wp_unslash($_POST['ec_timeline_data']);
+
+            // Sanitize: Decode to ensure it's valid JSON
+            $decoded = json_decode($raw_json, true);
+
+            if (json_last_error() === JSON_ERROR_NONE) {
+                // Re-encode to ensure clean JSON string storage
+                // We use wp_json_encode for better charset handling
+                update_post_meta($post_id, '_ec_timeline_data', wp_json_encode($decoded));
+            }
         }
     }
 }
