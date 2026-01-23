@@ -60,6 +60,17 @@ class EventCrafter_Admin
                 );
             }
         }
+        
+        // Enqueue on List Table for Copy Button
+        if ($hook === 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] === 'ec_timeline') {
+             wp_enqueue_script(
+                'eventcrafter-admin-list-js',
+                EVENTCRAFTER_URL . 'assets/js/admin-script.js',
+                array('jquery'),
+                $this->version,
+                true
+            );
+        }
     }
 
     public function render_builder_metabox($post)

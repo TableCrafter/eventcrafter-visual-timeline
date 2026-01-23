@@ -79,7 +79,12 @@ class EventCrafter_CPT
     {
         switch ($column) {
             case 'shortcode':
-                echo '<input type="text" readonly="readonly" value="[eventcrafter id=\'' . $post_id . '\']" class="large-text code" style="width: 100%; max-width: 250px;" />';
+                $shortcode = '[eventcrafter id=\'' . $post_id . '\']';
+                echo '<div class="ec-shortcode-wrapper" style="display:flex; align-items:center;">';
+                echo '<input type="text" readonly="readonly" value="' . esc_attr($shortcode) . '" class="large-text code" style="width: auto; max-width: 250px; margin-right: 5px;" onclick="this.select();" />';
+                echo '<button type="button" class="button ec-copy-shortcode" data-clipboard-text="' . esc_attr($shortcode) . '"><span class="dashicons dashicons-clipboard" style="line-height: 1.3;"></span></button>';
+                echo '<span class="ec-copy-success" style="display:none; margin-left:5px; color:green; font-weight:bold;">Copied!</span>';
+                echo '</div>';
                 break;
         }
     }

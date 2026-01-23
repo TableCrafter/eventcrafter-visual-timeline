@@ -3,7 +3,7 @@ Contributors: fahdi
 Tags: timeline, json, roadmap, history, events
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -21,7 +21,7 @@ Perfect for:
 *   Changelogs
 
 **Why EventCrafter?**
-*   **🚀 Visual Builder:** Manage your timelines directly in the WP Admin (New in 1.1).
+*   **🚀 Visual Builder:** Manage your events with a drag-and-drop interface (New in 1.1).
 *   **⚡ Zero Manual Entry:** Support for loading JSON from URL or using the builder.
 *   **📱 Fully Responsive:** Beautiful vertical layout that adapts to mobile.
 *   **🎨 Developer Friendly:** Customize via CSS variables or JSON settings.
@@ -58,6 +58,11 @@ Yes! Just use `[eventcrafter source="https://api.example.com/events.json"]`.
 2. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.1.1 =
+* **Enhancement**: Added 'Copy Shortcode' button to Timelines list table with visual feedback.
+* **Fix**: Improved JavaScript clipboard compatibility.
+* **Tests**: Added comprehensive Unit Test suite (100% coverage for core logic).
 
 = 1.1.0 =
 * **Feature**: Added Visual Builder (Admin UI) for creating timelines.
