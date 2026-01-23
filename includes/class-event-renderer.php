@@ -51,18 +51,25 @@ class EventCrafter_Renderer
      */
     private function fetch_data($source)
     {
-        // Check if it's a valid URL
-        if (filter_var($source, FILTER_VALIDATE_URL)) {
+        // 1. Check if source is a Post ID (numeric)
+        if (is_numeric($source)) {
+            $json = get_post_meta($source, '_ec_timeline_data', true);
+            if (empty($json)) {
+                return new WP_Error('no_data', 'No timeline data found for this ID.');
+            }
+            $data = json_decode($json, true);
+        }
+        // 2. Check if source is a URL
+        elseif (filter_var($source, FILTER_VALIDATE_URL)) {
             $response = wp_remote_get($source);
             if (is_wp_error($response)) {
                 return $response;
             }
             $body = wp_remote_retrieve_body($response);
             $data = json_decode($body, true);
-        } else {
-            // Assume local file path relative to WP upload dir or plugin dir?
-            // For MVP, let's support absolute path or URL. 
-            // Better yet, just try reading it if file exists.
+        }
+        // 3. Fallback: Local file path
+        else {
             if (file_exists($source)) {
                 $data = json_decode(file_get_contents($source), true);
             } else {

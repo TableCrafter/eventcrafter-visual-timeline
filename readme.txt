@@ -3,12 +3,12 @@ Contributors: fahdi
 Tags: timeline, json, roadmap, history, events
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The first API-native timeline builder for WordPress. Transform any JSON data into beautiful, responsive vertical timelines.
+The first API-native visual timeline builder for WordPress. Transform JSON into beautiful vertical timelines.
 
 == Description ==
 
@@ -21,8 +21,8 @@ Perfect for:
 *   Changelogs
 
 **Why EventCrafter?**
-*   **🚀 Zero Manual Entry:** Just provide a URL to a JSON file.
-*   **⚡ Performance First:** No database bloat. No complex queries.
+*   **🚀 Visual Builder:** Manage your timelines directly in the WP Admin (New in 1.1).
+*   **⚡ Zero Manual Entry:** Support for loading JSON from URL or using the builder.
 *   **📱 Fully Responsive:** Beautiful vertical layout that adapts to mobile.
 *   **🎨 Developer Friendly:** Customize via CSS variables or JSON settings.
 
@@ -30,7 +30,7 @@ Perfect for:
 
 1. Upload the `eventcrafter-visual-timeline` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Use the shortcode `[eventcrafter source="URL_TO_JSON"]` in any post or page.
+3. Use the shortcode `[eventcrafter id="123"]` (or `source="URL"`) in any post or page.
 
 == Frequently Asked Questions ==
 
@@ -54,9 +54,15 @@ Yes! Just use `[eventcrafter source="https://api.example.com/events.json"]`.
 
 == Screenshots ==
 
-1. **Vertical Timeline** - A clean, modern vertical representation of your events.
+1. **Visual Builder** - Easily manage events in the WordPress Admin.
+2. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.1.0 =
+* **Feature**: Added Visual Builder (Admin UI) for creating timelines.
+* **Feature**: Added `id` attribute to shortcode for easier embedding.
+* **New**: Added `Timelines` custom post type.
 
 = 1.0.1 =
 * **Security Fix**: Improved output escaping for timeline events.

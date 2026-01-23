@@ -3,7 +3,7 @@
  * Plugin Name: EventCrafter – Responsive Timelines, Roadmaps & Events Builder
  * Plugin URI: https://github.com/fahdi/eventcrafter-visual-timeline
  * Description: Transform JSON data into beautiful vertical timelines, product roadmaps, and event history. The API-native visual timeline builder.
- * Version: 1.0.1
+ * Version: 1.1.0
  * Author: Fahad Murtaza
  * Author URI: https://github.com/fahdi
  * License: GPLv2 or later
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 /**
  * Global Constants
  */
-define('EVENTCRAFTER_VERSION', '1.0.1');
+define('EVENTCRAFTER_VERSION', '1.1.0');
 define('EVENTCRAFTER_URL', plugin_dir_url(__FILE__));
 define('EVENTCRAFTER_PATH', plugin_dir_path(__FILE__));
 
@@ -38,8 +38,20 @@ class EventCrafter
 
     private function __construct()
     {
+        $this->load_dependencies();
         add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
         add_shortcode('eventcrafter', array($this, 'render_shortcode'));
+    }
+
+    private function load_dependencies()
+    {
+        require_once EVENTCRAFTER_PATH . 'includes/class-event-cpt.php';
+        $cpt = new EventCrafter_CPT();
+
+        if (is_admin()) {
+            require_once EVENTCRAFTER_PATH . 'admin/class-event-admin.php';
+            $admin = new EventCrafter_Admin(EVENTCRAFTER_VERSION);
+        }
     }
 
     public function enqueue_assets()
@@ -63,13 +75,17 @@ class EventCrafter
     public function render_shortcode($atts)
     {
         $atts = shortcode_atts(array(
-            'source' => '', // URL to JSON or path relative to uploads
+            'source' => '', // URL to JSON or path
+            'id' => '', // Post ID of timeline
             'layout' => 'vertical',
             'limit' => -1
         ), $atts, 'eventcrafter');
 
-        if (empty($atts['source'])) {
-            return '<div class="eventcrafter-error">Please provide a source URL for your timeline.</div>';
+        // Determine source: ID takes precedence over source URL
+        $source = !empty($atts['id']) ? $atts['id'] : $atts['source'];
+
+        if (empty($source)) {
+            return '<div class="eventcrafter-error">Please provide a timeline ID or source URL.</div>';
         }
 
         wp_enqueue_style('eventcrafter-style');
@@ -80,7 +96,7 @@ class EventCrafter
         }
 
         $renderer = new EventCrafter_Renderer();
-        return $renderer->render($atts['source'], $atts['layout']);
+        return $renderer->render($source, $atts['layout']);
     }
 }
 
