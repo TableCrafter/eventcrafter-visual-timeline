@@ -3,7 +3,7 @@
         'name' => 'tablecrafter/eventcrafter-visual-timeline',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '44629a65837f1f167b8849a4f82e41eb4bae1aac',
+        'reference' => '739410fbb5d1ced28866314db0bd4c98e8b7596d',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -310,7 +310,7 @@
         'tablecrafter/eventcrafter-visual-timeline' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '44629a65837f1f167b8849a4f82e41eb4bae1aac',
+            'reference' => '739410fbb5d1ced28866314db0bd4c98e8b7596d',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
