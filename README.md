@@ -44,6 +44,28 @@ EventCrafter is built to be extended.
 *   `eventcrafter_single_event_data` `(array $event, int $index)`: Modify individual event data just before rendering.
 *   `eventcrafter_wrapper_classes` `(array $classes)`: Add or remove CSS classes from the timeline wrapper.
 
+### JSON Data Schema
+If you are loading data from an external API, your JSON should follow this structure:
+
+```json
+{
+  "events": [
+    {
+      "date": "2025 Q1",
+      "title": "Product Launch",
+      "description": "HTML supported description of the event.",
+      "color": "#3b82f6",
+      "category": "Milestone",
+      "link": {
+        "url": "https://example.com",
+        "text": "Read Case Study",
+        "target": "_blank"
+      }
+    }
+  ]
+}
+```
+
 ### Development
 EventCrafter is built with TDD principles.
 ```bash
