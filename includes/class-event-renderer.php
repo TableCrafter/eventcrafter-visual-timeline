@@ -20,6 +20,9 @@ class EventCrafter_Renderer
             return '<div class="eventcrafter-error">Error loading timeline: ' . esc_html($data->get_error_message()) . '</div>';
         }
 
+        // Allow filtering raw data
+        $data = apply_filters('eventcrafter_timeline_data', $data, $source);
+
         if (empty($data['events'])) {
             return '<div class="eventcrafter-info">No events found in timeline data.</div>';
         }
@@ -30,15 +33,21 @@ class EventCrafter_Renderer
         // Allow JSON to override layout if not forced
         if (isset($settings['layout']) && $layout === 'vertical') {
             // Keep user preference if specified in shortcode, otherwise fallback to JSON
-            // For now, we trust shortcode over JSON unless shortcode is default
         }
+
+        // Filter classes
+        $wrapper_classes = apply_filters('eventcrafter_wrapper_classes', ['eventcrafter-wrapper', 'eventcrafter-layout-' . $safe_layout]);
 
         ob_start();
         ?>
-        <div class="eventcrafter-wrapper eventcrafter-layout-<?php echo esc_attr($safe_layout); ?>">
+        <div class="<?php echo esc_attr(implode(' ', $wrapper_classes)); ?>">
             <div class="eventcrafter-timeline">
-                <?php foreach ($data['events'] as $event): ?>
-                    <?php $this->render_event($event); ?>
+                <?php foreach ($data['events'] as $index => $event): ?>
+                    <?php
+                    // Allow modifying individual event execution data
+                    $event = apply_filters('eventcrafter_single_event_data', $event, $index);
+                    $this->render_event($event);
+                    ?>
                 <?php endforeach; ?>
             </div>
         </div>
@@ -89,6 +98,9 @@ class EventCrafter_Renderer
      */
     private function render_event($event)
     {
+        if (empty($event))
+            return;
+
         $date = isset($event['date']) ? esc_html($event['date']) : '';
         $title = isset($event['title']) ? esc_html($event['title']) : 'Untitled Event';
         $category = isset($event['category']) ? esc_html($event['category']) : '';

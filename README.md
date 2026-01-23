@@ -1,70 +1,51 @@
 # EventCrafter – Responsive Timelines & Roadmaps
 
-**The first API-native visual timeline builder for WordPress. Transform JSON into beautiful vertical timelines.**
+**Create beautiful vertical timelines, product roadmaps, and event history.**
 
-![Version](https://img.shields.io/badge/version-1.1.1-blue.svg) ![License](https://img.shields.io/badge/license-GPLv2-green.svg)
+![Version](https://img.shields.io/badge/version-1.1.2-blue.svg) ![License](https://img.shields.io/badge/license-GPLv2-green.svg)
 
-EventCrafter is a developer-first tool that transforms JSON data into professional timeline visualizations. Unlike other timeline plugins that force you to manually enter data into a slow UI, EventCrafter renders purely from your data source—whether it's a remote JSON API or a structured local configuration.
-
-With version 1.1, we've introduced a **Visual Builder** so content editors can easily manage timelines right from the WordPress dashboard, while still maintaining the clean JSON architecture under the hood.
+EventCrafter is a powerful tool designed for content editors and site owners. It transforms your events into professional vertical timeline visualizations using a simple drag-and-drop Visual Builder. No technical knowledge required.
 
 ## 🚀 Key Features
 
-*   **Visual Builder**: Manage your events with a drag-and-drop interface.
-*   **Zero Manual Entry**: Load JSON from any remote URL or use the builder.
-*   **Fully Responsive**: Beautiful vertical layout that adapts perfectly to mobile devices.
-*   **Developer Friendly**: Customize appearances via CSS variables or JSON settings.
-*   **Shortcode Driven**: Embed anywhere using `[eventcrafter id="123"]`.
+*   **👑 Visual Builder First**: Create stunning timelines using our drag-and-drop editor. No code required.
+*   **📱 Fully Responsive**: Vertical layouts that look great on mobile, tablet, and desktop.
+*   **🎨 Customization**: Control colors and styles visually.
+*   **👨‍💻 Developer Friendly**: Extensive hooks, filters, and optional JSON support for deep customization.
 
 ## 📦 Installation
 
 1.  Download the plugin zip file.
 2.  Upload to your WordPress site via **Plugins > Add New > Upload Plugin**.
 3.  Activate **EventCrafter Visual Timeline**.
-4.  Navigate to **Timelines** in the admin menu to start building.
+4.  Navigate to **Timelines** in the admin menu.
 
 ## 🛠 Usage
 
-### Using the Visual Builder
+### 1. Visual Builder (Recommended)
+The easiest way to build a roadmap or history timeline.
 1.  Go to **Timelines > Add New**.
-2.  Use the **EventCrafter Visual Builder** to add events (Title, Date, Description, Color).
-3.  Click the "Copy" button next to the shortcode at the top of the editor.
-4.  Paste the shortcode into any page or post.
+2.  Use the **Visual Builder** to add events.
+3.  Drag and drop to reorder.
+4.  Copy the shortcode from the top bar: `[eventcrafter id="123"]`.
 
-### Loading from Remote JSON
-You can also load data directly from an external API:
-
+### 2. Advanced: Remote JSON
+For developers or dynamic data needs, you can power a timeline via JSON URL:
 ```shortcode
 [eventcrafter source="https://api.example.com/roadmap.json"]
 ```
 
-### JSON Structure
-If you are building your own JSON feed, follow this structure:
+## 👨‍💻 Developer Hooks
 
-```json
-{
-  "events": [
-    {
-      "date": "2025 Q1",
-      "title": "Product Launch",
-      "description": "Initial release of the platform.",
-      "color": "#3b82f6",
-      "category": "Milestone"
-    },
-    {
-      "date": "2025 Q2",
-      "title": "Mobile App",
-      "description": "iOS and Android versions.",
-      "color": "#10b981"
-    }
-  ]
-}
-```
+EventCrafter is built to be extended.
 
-## 🧪 Development
+### Filters
+*   `eventcrafter_timeline_data` `(array $data, string $source)`: Modify the entire timeline data array before rendering.
+*   `eventcrafter_single_event_data` `(array $event, int $index)`: Modify individual event data just before rendering.
+*   `eventcrafter_wrapper_classes` `(array $classes)`: Add or remove CSS classes from the timeline wrapper.
 
-EventCrafter is built with TDD principles. To run the test suite:
-
+### Development
+EventCrafter is built with TDD principles.
 ```bash
 composer install
 composer test

@@ -7,14 +7,26 @@ class Test_Event_Renderer extends TestCase
     {
         WP_Mock::setUp();
         // Force mock return for escaping to avoid null/type errors if stubs bypassed
-        WP_Mock::userFunction('esc_html', ['return' => function ($x) {
-            return (string) $x; }]);
-        WP_Mock::userFunction('esc_attr', ['return' => function ($x) {
-            return (string) $x; }]);
-        WP_Mock::userFunction('esc_url', ['return' => function ($x) {
-            return (string) $x; }]);
-        WP_Mock::userFunction('wp_kses_post', ['return' => function ($x) {
-            return (string) $x; }]);
+        WP_Mock::userFunction('esc_html', [
+            'return' => function ($x) {
+                return (string) $x;
+            }
+        ]);
+        WP_Mock::userFunction('esc_attr', [
+            'return' => function ($x) {
+                return (string) $x;
+            }
+        ]);
+        WP_Mock::userFunction('esc_url', [
+            'return' => function ($x) {
+                return (string) $x;
+            }
+        ]);
+        WP_Mock::userFunction('wp_kses_post', [
+            'return' => function ($x) {
+                return (string) $x;
+            }
+        ]);
     }
 
     public function tearDown(): void
@@ -38,17 +50,13 @@ class Test_Event_Renderer extends TestCase
         require_once EVENTCRAFTER_PATH . 'includes/class-event-renderer.php';
         $renderer = new EventCrafter_Renderer();
 
-        // Reflection to access private method if needed, or simply test public render() traversing to fetch_data
-        // Let's test render which calls fetch_data
-
         $url = 'https://example.com/data.json';
-        $mock_data = json_encode([
+        $mock_data_array = [
             'events' => [
                 ['title' => 'Test Event', 'date' => '2025']
             ]
-        ]);
-
-        // Removed internal filter_var mock. Real filter_var will pass this URL.
+        ];
+        $mock_data = json_encode($mock_data_array);
 
         WP_Mock::userFunction('wp_remote_get', [
             'args' => [$url],
@@ -63,9 +71,19 @@ class Test_Event_Renderer extends TestCase
             'return' => $mock_data
         ]);
 
-        // Mock escaping functions used in render_event
-        // Mock escaping functions used in render_event (handled by stubs)
-        // WP_Mock::userFunction('esc_html', ...);
+        // Mock filters to return the data explicitly
+        WP_Mock::onFilter('eventcrafter_timeline_data')
+            ->with(\Mockery::type('array'), $url)
+            ->reply($mock_data_array);
+
+        WP_Mock::onFilter('eventcrafter_wrapper_classes')
+            ->with(\Mockery::type('array'))
+            ->reply(['eventcrafter-wrapper', 'eventcrafter-layout-vertical']);
+
+        // For the loop
+        WP_Mock::onFilter('eventcrafter_single_event_data')
+            ->with(\Mockery::type('array'), \Mockery::type('int'))
+            ->reply($mock_data_array['events'][0]);
 
         $output = $renderer->render($url, 'vertical');
 
@@ -79,24 +97,31 @@ class Test_Event_Renderer extends TestCase
         $renderer = new EventCrafter_Renderer();
 
         $post_id = 123;
-        $mock_json = json_encode([
+        $mock_data_array = [
             'events' => [
                 ['title' => 'Meta Event', 'date' => '2026']
             ],
             'settings' => ['layout' => 'horizontal']
-        ]);
-
-        // When source is NOT a URL, logic assumes file or ID.
-        // If it's numeric, it treats as ID.
-
-        // Native filter_var will return false for int, so we don't need to mock it.
+        ];
+        $mock_json = json_encode($mock_data_array);
 
         WP_Mock::userFunction('get_post_meta', [
             'args' => [$post_id, '_ec_timeline_data', true],
             'return' => $mock_json
         ]);
 
-        // Mocks handled by stubs
+        // Mock filters for this test too
+        WP_Mock::onFilter('eventcrafter_timeline_data')
+            ->with(\Mockery::type('array'), $post_id)
+            ->reply($mock_data_array);
+
+        WP_Mock::onFilter('eventcrafter_wrapper_classes')
+            ->with(\Mockery::type('array'))
+            ->reply(['eventcrafter-wrapper', 'eventcrafter-layout-vertical']); // Defaults to vertical if JSON override ignored in mock logic, or horizontal if code logic respects JSON. Code: $safe_layout derived from $layout arg. Test passes 'vertical'.
+
+        WP_Mock::onFilter('eventcrafter_single_event_data')
+            ->with(\Mockery::type('array'), \Mockery::type('int'))
+            ->reply($mock_data_array['events'][0]);
 
         $output = $renderer->render($post_id, 'vertical');
 

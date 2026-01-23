@@ -3,16 +3,16 @@ Contributors: fahdi
 Tags: timeline, json, roadmap, history, events
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The first API-native visual timeline builder for WordPress. Transform JSON into beautiful vertical timelines.
+Create beautiful vertical timelines, product roadmaps, and event history. Manage your events using the intuitive Visual Builder.
 
 == Description ==
 
-**EventCrafter** is a developer-first tool that transforms JSON data into professional timeline visualizations. Unlike other timeline plugins that force you to manually enter data into a slow UI, EventCrafter renders purely from your data source.
+**EventCrafter** is a powerful tool to create professional timeline visualizations. Unlike other timeline plugins that are bloated or difficult to use, EventCrafter offers a streamlined Visual Builder for effortless content management.
 
 Perfect for:
 *   Project Roadmaps
@@ -21,10 +21,10 @@ Perfect for:
 *   Changelogs
 
 **Why EventCrafter?**
-*   **🚀 Visual Builder:** Manage your events with a drag-and-drop interface (New in 1.1).
-*   **⚡ Zero Manual Entry:** Support for loading JSON from URL or using the builder.
-*   **📱 Fully Responsive:** Beautiful vertical layout that adapts to mobile.
-*   **🎨 Developer Friendly:** Customize via CSS variables or JSON settings.
+*   **👑 Visual Builder:** The easiest way to build timelines. Drag, drop, done.
+*   **📱 Fully Responsive:** Adapts to any screen size automatically.
+*   **🎨 Easy Customization:** Control colors directly in the editor.
+*   **⚙️ Advanced JSON:** Load data from external APIs if you need to.
 
 == Installation ==
 
@@ -34,23 +34,11 @@ Perfect for:
 
 == Frequently Asked Questions ==
 
-= How do I structure my JSON? =
-The plugin includes an `event-schema.json` file in the plugin directory that defines the structure. A basic example:
-```json
-{
-  "events": [
-    {
-      "date": "2025-01-01",
-      "title": "My Event",
-      "description": "Description here",
-      "color": "#3b82f6"
-    }
-  ]
-}
-```
+= Is it responsive? =
+Yes! The specific vertical layout is designed to work perfectly on mobile devices, tablets, and desktops automatically.
 
-= Can I load JSON from a remote URL? =
-Yes! Just use `[eventcrafter source="https://api.example.com/events.json"]`.
+= How do I modify colors? =
+You can set specific colors for each event directly within the Visual Builder.
 
 == Screenshots ==
 
@@ -58,6 +46,10 @@ Yes! Just use `[eventcrafter source="https://api.example.com/events.json"]`.
 2. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.1.2 =
+* **Feature**: Added `eventcrafter_timeline_data` and `eventcrafter_single_event_data` filters for developers.
+* **Docs**: Updated documentation to prioritize Visual Builder workflow.
 
 = 1.1.1 =
 * **Enhancement**: Added 'Copy Shortcode' button to Timelines list table with visual feedback.
