@@ -1,3 +1,7 @@
+=== EventCrafter – Responsive Timelines, Roadmaps & Events Builder ===
+Contributors: fahdi
+Tags: timeline, json, roadmap, history, events
+Requires at least: 5.0
 Tested up to: 6.9
 Stable tag: 1.0.1
 Requires PHP: 7.4
