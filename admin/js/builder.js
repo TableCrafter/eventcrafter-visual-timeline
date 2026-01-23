@@ -23,6 +23,8 @@ jQuery(document).ready(function($) {
 
     // Initialize
     renderEvents();
+    renderEvents();
+    renderPreview();
     initColorPickers();
 
     // Event Handlers
@@ -142,6 +144,58 @@ jQuery(document).ready(function($) {
         initColorPickers();
     }
 
+    function renderPreview() {
+        var $preview = $('#ec-live-preview');
+        
+        if (!currentState.events || currentState.events.length === 0) {
+            $preview.html('<p style="color:#666; font-style:italic;">No events to preview.</p>');
+            return;
+        }
+
+        var html = '<div class="eventcrafter-timeline eventcrafter-vertical">';
+        
+        currentState.events.forEach(function(event) {
+            var color = event.color || '#3b82f6';
+            html += '<div class="eventcrafter-item" style="--event-color: ' + color + ';">';
+            html += '<div class="eventcrafter-marker"></div>';
+            html += '<div class="eventcrafter-content">';
+            
+            html += '<div class="eventcrafter-header">';
+            if (event.date) {
+                html += '<span class="eventcrafter-date">' + escapeHtml(event.date) + '</span>';
+            }
+            if (event.category) {
+                html += '<span class="eventcrafter-category">' + escapeHtml(event.category) + '</span>';
+            }
+            html += '</div>'; // .eventcrafter-header
+
+            html += '<h3 class="eventcrafter-title">' + escapeHtml(event.title || 'Untitled') + '</h3>';
+            
+            if (event.description) {
+                // Determine if description has HTML or is plain text.
+                // For security in preview (and general safety), we should strip unsafe tags or just allow basic formatting.
+                // For this MVP preview, we'll assume the user is trusted admin and allow inserting HTML, 
+                // but usually wp.editor would cover this.
+                html += '<div class="eventcrafter-description">' + event.description + '</div>';
+            }
+
+            html += '</div></div>'; // .eventcrafter-content, .eventcrafter-item
+        });
+
+        html += '</div>'; // .eventcrafter-timeline
+        $preview.html(html);
+    }
+    
+    function escapeHtml(text) {
+        if (!text) return '';
+        return text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
     function initColorPickers() {
         if (!$.fn.wpColorPicker) return;
 
@@ -181,5 +235,6 @@ jQuery(document).ready(function($) {
 
     function updateStorage() {
         $input.val(JSON.stringify(currentState));
+        renderPreview();
     }
 });

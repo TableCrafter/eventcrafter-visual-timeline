@@ -44,6 +44,13 @@ class EventCrafter_Admin
                     $this->version
                 );
 
+                wp_enqueue_style(
+                    'eventcrafter-frontend-css',
+                    EVENTCRAFTER_URL . 'assets/css/eventcrafter.css',
+                    array(),
+                    $this->version
+                );
+
                 wp_enqueue_script(
                     'eventcrafter-admin-js',
                     EVENTCRAFTER_URL . 'admin/js/builder.js',
@@ -73,53 +80,76 @@ class EventCrafter_Admin
 
         // The Builder Interface Container
         ?>
-                <div id="ec-builder-app">
+        <div id="ec-builder-app">
+            <div class="ec-usage-box"
+                style="background: #f0f0f1; padding: 10px 15px; border-left: 4px solid #007cba; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <strong>Usage:</strong> <span class="description">Copy this shortcode to use this timeline anywhere.</span>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <code style="background: #fff; padding: 5px 10px; border: 1px solid #ddd; border-radius: 3px;"
+                        id="ec-shortcode-preview">[eventcrafter id="<?php echo esc_attr($post->ID); ?>"]</code>
+                    <button type="button" class="button button-small" id="ec-copy-shortcode">Copy</button>
+                </div>
+            </div>
+
+            <div class="ec-builder-columns" style="display: flex; gap: 20px;">
+                <div class="ec-editor-column" style="flex: 1;">
+                    <h3 style="margin-top:0;">Edit Events</h3>
                     <div class="ec-toolbar">
                         <button type="button" class="button button-primary" id="ec-add-event">+ Add Event</button>
                     </div>
                     <div id="ec-events-list">
                         <!-- Events will be rendered here via JS -->
-                         <p class="ec-empty-state">No events yet. Click "Add Event" to start building your timeline.</p>
+                        <p class="ec-empty-state">No events yet. Click "Add Event" to start building your timeline.</p>
                     </div>
                 </div>
-        
-                <!-- Template for Event Item (Hidden) -->
-                <script type="text/template" id="tmpl-ec-event">
-                    <div class="ec-event-card" data-id="{{id}}">
-                        <div class="ec-event-header">
-                            <span class="ec-drag-handle">☰</span>
-                            <span class="ec-event-preview-title">{{title}}</span>
-                            <span class="ec-event-preview-date">{{date}}</span>
-                            <div class="ec-event-actions">
-                                <button type="button" class="button-link ec-toggle-edit">Edit</button>
-                                <button type="button" class="button-link ec-delete-event" style="color: #b32d2e;">Delete</button>
-                            </div>
-                        </div>
-                        <div class="ec-event-body" style="display:none;">
-                            <div class="ec-field-row">
-                                <label>Date</label>
-                                <input type="text" class="widefat ec-input-date" value="{{date}}" placeholder="YYYY-MM-DD or Year">
-                            </div>
-                            <div class="ec-field-row">
-                                <label>Title</label>
-                                <input type="text" class="widefat ec-input-title" value="{{title}}" placeholder="Event Title">
-                            </div>
-                            <div class="ec-field-row">
-                                <label>Description</label>
-                                <textarea class="widefat ec-input-desc" rows="3">{{description}}</textarea>
-                            </div>
-                            <div class="ec-field-row">
-                                 <label>Color</label>
-                                 <input type="text" class="ec-input-color" value="{{color}}" data-default-color="#3b82f6">
-                            </div>
-                             <div class="ec-field-row">
-                                <label>Category</label>
-                                <input type="text" class="widefat ec-input-category" value="{{category}}" placeholder="e.g. Milestone">
-                            </div>
-                        </div>
+                <div class="ec-preview-column" style="flex: 1; min-width: 300px; background: #fff; padding: 20px; border: 1px solid #ddd; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                    <h3 style="margin-top:0; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 15px;">Live Preview</h3>
+                    <div id="ec-live-preview">
+                        <!-- Live Preview Rendered Here -->
                     </div>
-                </script>
-                <?php
+                </div>
+            </div>
+        </div>
+
+        <!-- Template for Event Item (Hidden) -->
+        <script type="text/template" id="tmpl-ec-event">
+                            <div class="ec-event-card" data-id="{{id}}">
+                                <div class="ec-event-header">
+                                    <span class="ec-drag-handle">☰</span>
+                                    <span class="ec-event-preview-title">{{title}}</span>
+                                    <span class="ec-event-preview-date">{{date}}</span>
+                                    <div class="ec-event-actions">
+                                        <button type="button" class="button-link ec-toggle-edit">Edit</button>
+                                        <button type="button" class="button-link ec-delete-event" style="color: #b32d2e;">Delete</button>
+                                    </div>
+                                </div>
+                                <div class="ec-event-body" style="display:none;">
+                                    <div class="ec-field-row">
+                                        <label>Date</label>
+                                        <input type="text" class="widefat ec-input-date" value="{{date}}" placeholder="YYYY-MM-DD or Year">
+                                    </div>
+                                    <div class="ec-field-row">
+                                        <label>Title</label>
+                                        <input type="text" class="widefat ec-input-title" value="{{title}}" placeholder="Event Title">
+                                    </div>
+                                    <div class="ec-field-row">
+                                        <label>Description</label>
+                                        <textarea class="widefat ec-input-desc" rows="3">{{description}}</textarea>
+                                    </div>
+                                    <div class="ec-field-row">
+                                         <label>Color</label>
+                                         <input type="text" class="ec-input-color" value="{{color}}" data-default-color="#3b82f6">
+                                    </div>
+                                     <div class="ec-field-row">
+                                        <label>Category</label>
+                                        <input type="text" class="widefat ec-input-category" value="{{category}}" placeholder="e.g. Milestone">
+                                    </div>
+                                </div>
+                            </div>
+                        </script>
+        <?php
     }
 
     public function save_timeline_data($post_id)
