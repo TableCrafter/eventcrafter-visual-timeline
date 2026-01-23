@@ -1,9 +1,5 @@
-=== EventCrafter – Responsive Timelines, Roadmaps & Events Builder ===
-Contributors: fahdi
-Tags: timeline, json, roadmap, history, events
-Requires at least: 5.0
-Tested up to: 6.7
-Stable tag: 1.0.0
+Tested up to: 6.9
+Stable tag: 1.0.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -28,7 +24,7 @@ Perfect for:
 
 == Installation ==
 
-1. Upload the `eventcrafter-timeline` folder to the `/wp-content/plugins/` directory.
+1. Upload the `eventcrafter-visual-timeline` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Use the shortcode `[eventcrafter source="URL_TO_JSON"]` in any post or page.
 
@@ -57,6 +53,10 @@ Yes! Just use `[eventcrafter source="https://api.example.com/events.json"]`.
 1. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.0.1 =
+* **Security Fix**: Improved output escaping for timeline events.
+* **Compatibility**: Confirmed compatibility with WordPress 6.9.
 
 = 1.0.0 =
 * Initial release.

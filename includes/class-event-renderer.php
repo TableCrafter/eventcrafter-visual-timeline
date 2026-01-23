@@ -89,25 +89,25 @@ class EventCrafter_Renderer
         $color = isset($event['color']) ? esc_attr($event['color']) : '#3b82f6';
 
         ?>
-        <div class="eventcrafter-item" style="--event-color: <?php echo $color; ?>;">
+        <div class="eventcrafter-item" style="--event-color: <?php echo esc_attr($color); ?>;">
             <div class="eventcrafter-marker"></div>
             <div class="eventcrafter-content">
                 <div class="eventcrafter-header">
                     <span class="eventcrafter-date">
-                        <?php echo $date; ?>
+                        <?php echo esc_html($date); ?>
                     </span>
                     <?php if ($category): ?>
                         <span class="eventcrafter-category">
-                            <?php echo $category; ?>
+                            <?php echo esc_html($category); ?>
                         </span>
                     <?php endif; ?>
                 </div>
                 <h3 class="eventcrafter-title">
-                    <?php echo $title; ?>
+                    <?php echo esc_html($title); ?>
                 </h3>
                 <?php if ($description): ?>
                     <div class="eventcrafter-description">
-                        <?php echo $description; ?>
+                        <?php echo wp_kses_post($description); ?>
                     </div>
                 <?php endif; ?>
 
