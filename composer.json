@@ -1,0 +1,25 @@
+{
+    "name": "tablecrafter/eventcrafter-visual-timeline",
+    "description": "EventCrafter - Responsive Timelines, Roadmaps & Events Builder",
+    "type": "wordpress-plugin",
+    "license": "GPL-2.0-or-later",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "10up/wp_mock": "^1.0",
+        "mockery/mockery": "^1.6"
+    },
+    "autoload": {
+        "classmap": [
+            "includes/",
+            "admin/"
+        ]
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

@@ -17,9 +17,15 @@ if (!defined('ABSPATH')) {
 /**
  * Global Constants
  */
-define('EVENTCRAFTER_VERSION', '1.1.0');
-define('EVENTCRAFTER_URL', plugin_dir_url(__FILE__));
-define('EVENTCRAFTER_PATH', plugin_dir_path(__FILE__));
+if (!defined('EVENTCRAFTER_VERSION')) {
+    define('EVENTCRAFTER_VERSION', '1.1.0');
+}
+if (!defined('EVENTCRAFTER_URL')) {
+    define('EVENTCRAFTER_URL', plugin_dir_url(__FILE__));
+}
+if (!defined('EVENTCRAFTER_PATH')) {
+    define('EVENTCRAFTER_PATH', plugin_dir_path(__FILE__));
+}
 
 /**
  * Main EventCrafter Class
