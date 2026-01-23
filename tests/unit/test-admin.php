@@ -100,4 +100,114 @@ class Test_Event_Admin extends TestCase
 
         $this->assertTrue(true);
     }
+
+    public function test_save_timeline_data_fails_with_invalid_nonce()
+    {
+        require_once EVENTCRAFTER_PATH . 'admin/class-event-admin.php';
+        $admin = new EventCrafter_Admin('1.0.0');
+        $post_id = 456;
+        $_POST['ec_timeline_nonce'] = 'invalid_nonce';
+
+        WP_Mock::userFunction('wp_unslash', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('sanitize_key', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('wp_verify_nonce', [
+            'args' => ['invalid_nonce', 'ec_save_timeline_data'],
+            'return' => false
+        ]);
+
+        // Should NOT call update_post_meta
+        WP_Mock::userFunction('update_post_meta', [
+            'times' => 0
+        ]);
+
+        $admin->save_timeline_data($post_id);
+
+        $this->assertTrue(true);
+    }
+
+    public function test_save_timeline_data_fails_without_permission()
+    {
+        require_once EVENTCRAFTER_PATH . 'admin/class-event-admin.php';
+        $admin = new EventCrafter_Admin('1.0.0');
+        $post_id = 456;
+        $_POST['ec_timeline_nonce'] = 'valid_nonce';
+
+        WP_Mock::userFunction('wp_unslash', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('sanitize_key', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('wp_verify_nonce', [
+            'return' => true
+        ]);
+
+        WP_Mock::userFunction('current_user_can', [
+            'args' => ['edit_post', $post_id],
+            'return' => false
+        ]);
+
+        // Should NOT call update_post_meta
+        WP_Mock::userFunction('update_post_meta', [
+            'times' => 0
+        ]);
+
+        $admin->save_timeline_data($post_id);
+
+        $this->assertTrue(true);
+    }
+
+    public function test_save_timeline_data_rejects_invalid_json()
+    {
+        require_once EVENTCRAFTER_PATH . 'admin/class-event-admin.php';
+        $admin = new EventCrafter_Admin('1.0.0');
+        $post_id = 456;
+        $_POST['ec_timeline_nonce'] = 'valid_nonce';
+        $_POST['ec_timeline_data'] = 'not valid json {{{';
+
+        WP_Mock::userFunction('wp_unslash', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('sanitize_key', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('wp_verify_nonce', [
+            'return' => true
+        ]);
+
+        WP_Mock::userFunction('current_user_can', [
+            'return' => true
+        ]);
+
+        // Should NOT call update_post_meta for invalid JSON
+        WP_Mock::userFunction('update_post_meta', [
+            'times' => 0
+        ]);
+
+        $admin->save_timeline_data($post_id);
+
+        $this->assertTrue(true);
+    }
 }
