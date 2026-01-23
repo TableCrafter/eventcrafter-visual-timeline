@@ -3,7 +3,7 @@ Contributors: fahdi
 Tags: timeline, json, roadmap, history, events
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,6 +46,10 @@ You can set specific colors for each event directly within the Visual Builder.
 2. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.1.3 =
+* **Fix**: Security improvements (nonce verification, input sanitization).
+* **Fix**: Removed dev files from distribution.
 
 = 1.1.2 =
 * **Feature**: Added `eventcrafter_timeline_data` and `eventcrafter_single_event_data` filters for developers.

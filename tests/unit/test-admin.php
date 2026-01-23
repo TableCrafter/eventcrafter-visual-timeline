@@ -43,10 +43,8 @@ class Test_Event_Admin extends TestCase
         $admin = new EventCrafter_Admin('1.0.0');
         $post_id = 456;
 
-        WP_Mock::userFunction('current_user_can', [
-            'args' => ['edit_post', $post_id],
-            'return' => false // Simulate no permission
-        ]);
+        // Missing nonce should return early
+        unset($_POST['ec_timeline_nonce']);
 
         // Should NOT call update_post_meta
         WP_Mock::userFunction('update_post_meta', [
@@ -55,7 +53,6 @@ class Test_Event_Admin extends TestCase
 
         $admin->save_timeline_data($post_id);
 
-        // Verifying expectations met
         $this->assertTrue(true);
     }
 
@@ -65,20 +62,42 @@ class Test_Event_Admin extends TestCase
         $admin = new EventCrafter_Admin('1.0.0');
         $post_id = 456;
         $_POST['ec_timeline_data'] = '{"events":[]}';
+        $_POST['ec_timeline_nonce'] = 'valid_nonce';
+
+        WP_Mock::userFunction('wp_unslash', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('sanitize_key', [
+            'return' => function ($val) {
+                return $val;
+            }
+        ]);
+
+        WP_Mock::userFunction('wp_verify_nonce', [
+            'args' => ['valid_nonce', 'ec_save_timeline_data'],
+            'return' => true
+        ]);
 
         WP_Mock::userFunction('current_user_can', [
             'return' => true
         ]);
 
+        WP_Mock::userFunction('wp_json_encode', [
+            'args' => [['events' => []]],
+            'return' => '{"events":[]}'
+        ]);
+
         // Should call update_post_meta
         WP_Mock::userFunction('update_post_meta', [
             'times' => 1,
-            'args' => [$post_id, '_ec_timeline_data', $_POST['ec_timeline_data']]
+            'args' => [$post_id, '_ec_timeline_data', '{"events":[]}']
         ]);
 
         $admin->save_timeline_data($post_id);
 
-        // Verifying expectations met
         $this->assertTrue(true);
     }
 }
