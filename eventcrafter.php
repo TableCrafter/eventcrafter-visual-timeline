@@ -58,6 +58,10 @@ class EventCrafter
             require_once EVENTCRAFTER_PATH . 'admin/class-event-admin.php';
             $admin = new EventCrafter_Admin(EVENTCRAFTER_VERSION);
         }
+
+        // Load Gutenberg block
+        require_once EVENTCRAFTER_PATH . 'includes/class-event-block.php';
+        new EventCrafter_Block();
     }
 
     public function enqueue_assets()
