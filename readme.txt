@@ -3,7 +3,7 @@ Contributors: fahdi
 Tags: timeline, json, roadmap, history, events
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.1.4
+Stable tag: 1.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -46,6 +46,13 @@ You can set specific colors for each event directly within the Visual Builder.
 2. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.2.0 =
+* **Feature**: Added Gutenberg block for embedding timelines in the block editor.
+* **Feature**: Live preview of timelines in the editor via server-side rendering.
+* **Feature**: Timeline selector dropdown with "Create New" option.
+* **Feature**: Inspector controls for layout, event limit, and animations.
+* **Enhancement**: Added REST API support for timelines (`show_in_rest`).
 
 = 1.1.4 =
 * **Tests**: Added comprehensive security tests for admin save function.
