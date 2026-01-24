@@ -1,0 +1,40 @@
+/**
+ * EventCrafter Timeline Block - Frontend Styles
+ *
+ * These styles apply to both the editor and frontend.
+ * Most styles come from the main eventcrafter.css file.
+ */
+
+.wp-block-eventcrafter-timeline {
+    // Block wrapper
+    &.alignwide {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    &.alignfull {
+        max-width: none;
+        width: 100%;
+    }
+
+    // No animation class
+    &.no-animation {
+        .eventcrafter-event {
+            opacity: 1;
+            transform: none;
+            animation: none;
+        }
+    }
+
+    // Placeholder message
+    .eventcrafter-block-placeholder {
+        padding: 40px 20px;
+        text-align: center;
+        background: #f0f0f1;
+        border: 1px dashed #c3c4c7;
+        border-radius: 4px;
+        color: #50575e;
+        font-size: 14px;
+    }
+}

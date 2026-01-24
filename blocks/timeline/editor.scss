@@ -1,0 +1,52 @@
+/**
+ * EventCrafter Timeline Block - Editor Styles
+ */
+
+.wp-block-eventcrafter-timeline {
+    // Placeholder content layout
+    .ec-block-placeholder-content {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 300px;
+
+        .components-select-control {
+            width: 100%;
+        }
+    }
+
+    // Edit timeline button
+    .ec-block-edit-link {
+        display: flex;
+        justify-content: center;
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px dashed #ddd;
+    }
+
+    // Server-side render wrapper
+    .components-server-side-render {
+        pointer-events: none;
+    }
+
+    // Preview container styling in editor
+    .eventcrafter-wrapper {
+        opacity: 0.9;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+// Block placeholder empty state
+.wp-block-eventcrafter-timeline .components-placeholder {
+    min-height: 200px;
+
+    .components-placeholder__label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+}

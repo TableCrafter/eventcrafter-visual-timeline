@@ -61,6 +61,8 @@ class EventCrafter_CPT
             'exclude_from_search' => true,
             'publicly_queryable' => false,
             'capability_type' => 'post',
+            'show_in_rest' => true,  // Required for Gutenberg block
+            'rest_base' => 'ec_timeline',
         );
         register_post_type('ec_timeline', $args);
     }
