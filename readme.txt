@@ -3,7 +3,7 @@ Contributors: fahdi
 Tags: timeline, json, roadmap, history, events
 Requires at least: 5.0
 Tested up to: 6.9
-Stable tag: 1.1.7
+Stable tag: 1.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -23,18 +23,19 @@ Perfect for:
 
 **Why EventCrafter?**
 
+**🚀 Try it Live:** [Test EventCrafter in WordPress Playground](https://tastewp.com/new?ni=true&origin=wp&redirect=admin.php?page=edit.php?post_type=eventcrafter_tl&pre-installed-plugin-slug=eventcrafter-visual-timeline&mu=false) - No installation needed!
+
 *   **👑 Visual Builder:** The easiest way to build timelines. Drag, drop, done.
+*   **🎯 Gutenberg Block:** Native block editor support for modern WordPress workflow.
 *   **📱 Fully Responsive:** Adapts to any screen size automatically.
 *   **🎨 Easy Customization:** Control colors directly in the editor.
 *   **⚙️ Advanced JSON:** Load data from external APIs if you need to.
-
-**🚀 Try it Live:** [Test EventCrafter in WordPress Playground](https://playground.wordpress.net/scope:ambitious-modern-city/sample-page/) - No installation needed!
 
 == Installation ==
 
 1. Upload the `eventcrafter-visual-timeline` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Use the shortcode `[eventcrafter id="123"]` (or `source="URL"`) in any post or page.
+3. Create timelines using the Visual Builder, then use the Gutenberg block or shortcode `[eventcrafter id="123"]` to display them.
 
 == Frequently Asked Questions ==
 
@@ -52,6 +53,12 @@ You can set specific colors for each event directly within the Visual Builder.
 2. **Vertical Timeline** - A clean, modern vertical representation of your events.
 
 == Changelog ==
+
+= 1.2.0 =
+* **Feature**: Added Gutenberg block editor support for modern block-based editing
+* **Enhancement**: Improved WordPress 6.x compatibility with native block registration
+* **Feature**: Block includes intuitive timeline selector and external JSON source support
+* **Enhancement**: Added block alignment support (wide/full width) for better theme integration
 
 = 1.1.7 =
 * **Fix**: Replaced direct database queries with WordPress functions (Plugin Check compliance)

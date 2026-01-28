@@ -14,7 +14,7 @@ if (!defined('ABSPATH')) {
 // Define Plugin constants
 define('EVENTCRAFTER_PATH', dirname(__DIR__) . '/');
 define('EVENTCRAFTER_URL', 'http://example.com/wp-content/plugins/eventcrafter-visual-timeline/');
-define('EVENTCRAFTER_VERSION', '1.1.3');
+define('EVENTCRAFTER_VERSION', '1.2.0');
 
 // Initialize WP_Mock
 require_once __DIR__ . '/unit/stubs.php';

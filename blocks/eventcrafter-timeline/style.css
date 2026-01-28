@@ -1,0 +1,31 @@
+/* EventCrafter Timeline Block Frontend Styles */
+/* Styles are inherited from the main plugin stylesheet */
+
+.wp-block-eventcrafter-timeline {
+    margin: 24px 0;
+}
+
+/* Ensure alignment classes work properly */
+.wp-block-eventcrafter-timeline.alignwide {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    max-width: 1200px;
+}
+
+.wp-block-eventcrafter-timeline.alignfull {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+/* Timeline container spacing */
+.wp-block-eventcrafter-timeline .eventcrafter-wrapper {
+    width: 100%;
+}

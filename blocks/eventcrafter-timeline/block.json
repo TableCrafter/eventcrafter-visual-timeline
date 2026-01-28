@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "eventcrafter/timeline",
+	"version": "1.0.0",
+	"title": "EventCrafter Timeline",
+	"category": "widgets",
+	"icon": {
+		"src": "excerpt-view",
+		"background": "#3b82f6",
+		"foreground": "#ffffff"
+	},
+	"description": "Display beautiful timelines, roadmaps, and event history.",
+	"keywords": ["timeline", "events", "roadmap", "history", "visual"],
+	"textdomain": "eventcrafter-visual-timeline",
+	"attributes": {
+		"timelineId": {
+			"type": "string",
+			"default": ""
+		},
+		"sourceUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"layout": {
+			"type": "string",
+			"default": "vertical",
+			"enum": ["vertical", "horizontal"]
+		},
+		"limit": {
+			"type": "number",
+			"default": -1
+		}
+	},
+	"supports": {
+		"align": ["wide", "full"],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		},
+		"color": {
+			"background": true,
+			"text": true
+		}
+	},
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.css",
+	"style": "file:./style.css"
+}

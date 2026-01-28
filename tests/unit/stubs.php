@@ -66,11 +66,64 @@ if (!function_exists('is_wp_error')) {
 if (!class_exists('WP_Error')) {
     class WP_Error
     {
+        private $code;
+        private $message;
+        
         public function __construct($code = '', $message = '', $data = '')
         {
+            $this->code = $code;
+            $this->message = $message;
         }
         public function get_error_message()
         {
+            return $this->message;
         }
     }
+}
+
+if (!function_exists('register_activation_hook')) {
+    function register_activation_hook($file, $callback)
+    {
+        // Stub - do nothing in tests
+    }
+}
+
+if (!function_exists('register_deactivation_hook')) {
+    function register_deactivation_hook($file, $callback)
+    {
+        // Stub - do nothing in tests
+    }
+}
+
+if (!function_exists('add_action')) {
+    function add_action($hook, $callback, $priority = 10, $accepted_args = 1)
+    {
+        // Stub - do nothing in tests
+    }
+}
+
+if (!function_exists('plugin_dir_url')) {
+    function plugin_dir_url($file)
+    {
+        return 'http://example.com/wp-content/plugins/eventcrafter-visual-timeline/';
+    }
+}
+
+if (!function_exists('plugin_dir_path')) {
+    function plugin_dir_path($file)
+    {
+        return EVENTCRAFTER_PATH;
+    }
+}
+
+if (!function_exists('file_get_contents')) {
+    // Don't override - this is a PHP function
+}
+
+if (!function_exists('json_decode')) {
+    // Don't override - this is a PHP function
+}
+
+if (!function_exists('json_last_error')) {
+    // Don't override - this is a PHP function
 }

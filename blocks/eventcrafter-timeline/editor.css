@@ -1,0 +1,67 @@
+/* EventCrafter Timeline Block Editor Styles */
+.wp-block-eventcrafter-timeline {
+    min-height: 120px;
+}
+
+.wp-block-eventcrafter-timeline .components-placeholder {
+    background: #f6f7f7;
+    border: 2px dashed #d0d5dd;
+    border-radius: 8px;
+    padding: 32px;
+    text-align: center;
+}
+
+.wp-block-eventcrafter-timeline .components-placeholder .dashicon {
+    color: #6c7781;
+    font-size: 32px;
+    margin-bottom: 16px;
+}
+
+.wp-block-eventcrafter-timeline .components-placeholder .components-placeholder__label {
+    font-weight: 600;
+    color: #1e1e1e;
+    margin-bottom: 8px;
+}
+
+.wp-block-eventcrafter-timeline .components-placeholder .components-placeholder__instructions {
+    color: #757575;
+    font-size: 14px;
+    margin-bottom: 16px;
+}
+
+/* Inspector Controls */
+.wp-block-eventcrafter-timeline .components-panel__body .components-base-control__help {
+    font-size: 12px;
+    color: #757575;
+    margin-top: 4px;
+}
+
+.wp-block-eventcrafter-timeline .components-panel__body hr {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Timeline Preview Placeholder */
+.eventcrafter-block-preview {
+    background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    border-radius: 4px;
+    padding: 24px;
+    text-align: center;
+    color: #666;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-style: italic;
+}
+
+.eventcrafter-block-preview::before {
+    content: "Timeline will appear here on the frontend";
+    font-size: 14px;
+}

@@ -3,7 +3,7 @@
  * Plugin Name: EventCrafter – Responsive Timelines, Roadmaps & Events Builder
  * Plugin URI: https://github.com/TableCrafter/eventcrafter-visual-timeline
  * Description: Create beautiful vertical timelines, product roadmaps, and event history. Manage your events using the intuitive Visual Builder.
- * Version: 1.1.7
+ * Version: 1.2.0
  * Author: Fahad Murtaza
  * Author URI: https://github.com/fahdi
  * License: GPLv2 or later
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * Global Constants
  */
 if (!defined('EVENTCRAFTER_VERSION')) {
-    define('EVENTCRAFTER_VERSION', '1.1.7');
+    define('EVENTCRAFTER_VERSION', '1.2.0');
 }
 if (!defined('EVENTCRAFTER_URL')) {
     define('EVENTCRAFTER_URL', plugin_dir_url(__FILE__));
@@ -46,6 +46,7 @@ class EventCrafter
     {
         $this->load_dependencies();
         add_action('wp_enqueue_scripts', array($this, 'enqueue_assets'));
+        add_action('init', array($this, 'register_blocks'));
         add_shortcode('eventcrafter', array($this, 'render_shortcode'));
     }
 
@@ -103,6 +104,28 @@ class EventCrafter
 
         $renderer = new EventCrafter_Renderer();
         return $renderer->render($source, $atts['layout']);
+    }
+
+    public function register_blocks()
+    {
+        register_block_type(
+            EVENTCRAFTER_PATH . 'blocks/eventcrafter-timeline',
+            array(
+                'render_callback' => array($this, 'render_block'),
+            )
+        );
+    }
+
+    public function render_block($attributes, $content, $block)
+    {
+        $atts = array(
+            'id' => isset($attributes['timelineId']) ? $attributes['timelineId'] : '',
+            'source' => isset($attributes['sourceUrl']) ? $attributes['sourceUrl'] : '',
+            'layout' => isset($attributes['layout']) ? $attributes['layout'] : 'vertical',
+            'limit' => isset($attributes['limit']) ? $attributes['limit'] : -1
+        );
+
+        return $this->render_shortcode($atts);
     }
 }
 

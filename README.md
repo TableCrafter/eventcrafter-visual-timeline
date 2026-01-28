@@ -10,13 +10,14 @@ Create stunning **timelines**, **roadmaps**, and **event histories** for WordPre
 ## ⭐ Why Choose EventCrafter?
 
 - **🎯 Zero Learning Curve** - Build professional timelines in under 5 minutes
+- **🎛 Gutenberg Block Support** - Native block editor integration for modern WordPress
 - **📱 Mobile-First Design** - Stunning display on all devices and screen sizes  
 - **🎨 Unlimited Customization** - Colors, spacing, fonts, and layout control
 - **⚡ Performance Optimized** - Lightning-fast loading and SEO-friendly
 - **♿ Accessibility Ready** - WCAG 2.1 compliant for inclusive design
 - **🔗 API Integration** - Connect external data sources and JSON feeds
 
-## 🚀 [Try Live Demo](https://playground.wordpress.net/scope:ambitious-modern-city/sample-page/)
+## 🚀 [Try Live Demo](https://tastewp.com/new?ni=true&origin=wp&redirect=admin.php?page=edit.php?post_type=eventcrafter_tl&pre-installed-plugin-slug=eventcrafter-visual-timeline&mu=false)
 
 Test EventCrafter instantly in WordPress Playground - no installation required!
 
@@ -49,6 +50,16 @@ Test EventCrafter instantly in WordPress Playground - no installation required!
 ```
 
 ### Quick Start
+
+**Method 1: Gutenberg Block (Recommended)**
+```
+1. Create new post/page
+2. Add EventCrafter Timeline block
+3. Select timeline or enter JSON URL
+4. Customize layout and settings
+```
+
+**Method 2: Shortcode**
 ```php
 // Basic usage
 [eventcrafter id="123"]
