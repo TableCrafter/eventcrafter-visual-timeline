@@ -1,52 +1,121 @@
-# EventCrafter – Responsive Timelines & Roadmaps
+# 🚀 EventCrafter – Professional WordPress Timeline Plugin
 
-**Create beautiful vertical timelines, product roadmaps, and event history.**
+[![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/eventcrafter-visual-timeline.svg)](https://wordpress.org/plugins/eventcrafter-visual-timeline/)
+[![WordPress Plugin Downloads](https://img.shields.io/wordpress/plugin/dt/eventcrafter-visual-timeline.svg)](https://wordpress.org/plugins/eventcrafter-visual-timeline/)
+[![WordPress Plugin Rating](https://img.shields.io/wordpress/plugin/r/eventcrafter-visual-timeline.svg)](https://wordpress.org/plugins/eventcrafter-visual-timeline/)
+[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
 
-![Version](https://img.shields.io/badge/version-1.1.2-blue.svg) ![License](https://img.shields.io/badge/license-GPLv2-green.svg)
+Create stunning **timelines**, **roadmaps**, and **event histories** for WordPress with our intuitive drag-drop Visual Builder. Perfect for project management, company milestones, and product launches.
 
-EventCrafter is a powerful tool designed for content editors and site owners. It transforms your events into professional vertical timeline visualizations using a simple drag-and-drop Visual Builder. No technical knowledge required.
+## ⭐ Why Choose EventCrafter?
 
-## 🚀 Key Features
+- **🎯 Zero Learning Curve** - Build professional timelines in under 5 minutes
+- **📱 Mobile-First Design** - Stunning display on all devices and screen sizes  
+- **🎨 Unlimited Customization** - Colors, spacing, fonts, and layout control
+- **⚡ Performance Optimized** - Lightning-fast loading and SEO-friendly
+- **♿ Accessibility Ready** - WCAG 2.1 compliant for inclusive design
+- **🔗 API Integration** - Connect external data sources and JSON feeds
 
-*   **👑 Visual Builder First**: Create stunning timelines using our drag-and-drop editor. No code required.
-*   **📱 Fully Responsive**: Vertical layouts that look great on mobile, tablet, and desktop.
-*   **🎨 Customization**: Control colors and styles visually.
-*   **👨‍💻 Developer Friendly**: Extensive hooks, filters, and optional JSON support for deep customization.
+## 🚀 [Try Live Demo](https://playground.wordpress.net/scope:ambitious-modern-city/sample-page/)
 
-## 📦 Installation
+Test EventCrafter instantly in WordPress Playground - no installation required!
 
-1.  Download the plugin zip file.
-2.  Upload to your WordPress site via **Plugins > Add New > Upload Plugin**.
-3.  Activate **EventCrafter Visual Timeline**.
-4.  Navigate to **Timelines** in the admin menu.
+## 🎯 Perfect Use Cases
 
-## 🛠 Usage
+| Use Case | Description | Ideal For |
+|----------|-------------|-----------|
+| **Project Roadmaps** | Visualize development milestones and feature releases | SaaS companies, agencies, startups |
+| **Company History** | Showcase your journey and key achievements | Corporate websites, about pages |
+| **Product Launches** | Create anticipation with launch timelines | E-commerce, product marketing |
+| **Event Schedules** | Display conferences, webinars, workshops | Event organizers, conferences |
+| **Process Documentation** | Step-by-step workflow visualization | Documentation, tutorials |
+| **Portfolio Showcases** | Career progression and project timelines | Personal branding, freelancers |
 
-### 1. Visual Builder (Recommended)
-The easiest way to build a roadmap or history timeline.
-1.  Go to **Timelines > Add New**.
-2.  Use the **Visual Builder** to add events.
-3.  Drag and drop to reorder.
-4.  Copy the shortcode from the top bar: `[eventcrafter id="123"]`.
+## 🛠 Installation & Setup
 
-### 2. Advanced: Remote JSON
-For developers or dynamic data needs, you can power a timeline via JSON URL:
-```shortcode
-[eventcrafter source="https://api.example.com/roadmap.json"]
+### WordPress Repository (Recommended)
+```bash
+# Install from WordPress admin
+1. Go to Plugins → Add New
+2. Search "EventCrafter"
+3. Install & Activate
 ```
 
-## 👨‍💻 Developer Hooks
+### Manual Installation
+```bash
+1. Download from https://wordpress.org/plugins/eventcrafter-visual-timeline/
+2. Upload to /wp-content/plugins/
+3. Activate in WordPress admin
+```
 
-EventCrafter is built to be extended.
+### Quick Start
+```php
+// Basic usage
+[eventcrafter id="123"]
 
-### Filters
-*   `eventcrafter_timeline_data` `(array $data, string $source)`: Modify the entire timeline data array before rendering.
-*   `eventcrafter_single_event_data` `(array $event, int $index)`: Modify individual event data just before rendering.
-*   `eventcrafter_wrapper_classes` `(array $classes)`: Add or remove CSS classes from the timeline wrapper.
+// With custom styling
+[eventcrafter id="123" layout="vertical"]
+
+// From JSON source
+[eventcrafter source="https://api.example.com/timeline.json"]
+```
+
+## 📸 Screenshots
+
+<details>
+<summary>View Screenshots</summary>
+
+| Feature | Preview |
+|---------|---------|
+| **Visual Builder** | ![Admin Interface](screenshot-1.png) |
+| **Timeline Display** | ![Frontend Timeline](screenshot-2.png) |
+| **Mobile Responsive** | ![Mobile View](screenshot-3.png) |
+| **Customization** | ![Color Options](screenshot-4.png) |
+
+</details>
+
+## 🔧 Advanced Features
+
+### JSON API Integration
+```javascript
+// Load timeline data from any API
+fetch('https://your-api.com/timeline')
+  .then(response => response.json())
+  .then(data => {
+    // EventCrafter automatically formats your data
+  });
+```
+
+### Custom Styling
+```css
+/* Customize timeline appearance */
+.eventcrafter-timeline {
+  /* Your custom styles */
+}
+```
+
+### WordPress Hooks
+```php
+// Modify timeline data before display
+add_filter('eventcrafter_timeline_data', function($data) {
+    // Your customizations
+    return $data;
+});
+
+// Modify individual events
+add_filter('eventcrafter_single_event_data', function($event, $index) {
+    // Your event customizations
+    return $event;
+}, 10, 2);
+
+// Add custom CSS classes
+add_filter('eventcrafter_wrapper_classes', function($classes) {
+    $classes[] = 'my-custom-class';
+    return $classes;
+});
+```
 
 ### JSON Data Schema
-If you are loading data from an external API, your JSON should follow this structure:
-
 ```json
 {
   "events": [
@@ -66,9 +135,45 @@ If you are loading data from an external API, your JSON should follow this struc
 }
 ```
 
-### Development
-EventCrafter is built with TDD principles.
+## 📈 SEO & Performance
+
+- ✅ **Semantic HTML** for better search engine indexing
+- ✅ **Schema.org markup** for rich snippets
+- ✅ **Optimized loading** with lazy loading and caching
+- ✅ **Core Web Vitals** optimized for Google rankings
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md).
+
+### Development Setup
 ```bash
+git clone https://github.com/TableCrafter/eventcrafter-visual-timeline.git
+cd eventcrafter-visual-timeline
+npm install
+npm run dev
+```
+
+### Testing
+```bash
+# Run PHP tests
 composer install
 composer test
+
+# Run accessibility tests  
+npm run test:accessibility
 ```
+
+## 📄 License
+
+GPL v2 or later - see [LICENSE](LICENSE) file.
+
+## 🌟 Support EventCrafter
+
+- ⭐ [Rate us on WordPress.org](https://wordpress.org/plugins/eventcrafter-visual-timeline/)
+- 🐛 [Report issues on GitHub](https://github.com/TableCrafter/eventcrafter-visual-timeline/issues)
+- 💬 [Get support on WordPress.org](https://wordpress.org/support/plugin/eventcrafter-visual-timeline/)
+
+---
+
+**Created by [Fahad Murtaza](https://github.com/fahdi)** | **Part of the [TableCrafter Suite](https://github.com/TableCrafter)**

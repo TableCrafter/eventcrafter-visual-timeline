@@ -11,17 +11,17 @@ class EventCrafter_Admin
     {
         $this->version = $version;
         add_action('add_meta_boxes', array($this, 'add_builder_metabox'));
-        add_action('save_post_ec_timeline', array($this, 'save_timeline_data'));
+        add_action('save_post_eventcrafter_tl', array($this, 'save_timeline_data'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
     }
 
     public function add_builder_metabox()
     {
         add_meta_box(
-            'ec_timeline_builder',
+            'eventcrafter_tl_builder',
             __('EventCrafter Visual Builder', 'eventcrafter-visual-timeline'),
             array($this, 'render_builder_metabox'),
-            'ec_timeline',
+            'eventcrafter_tl',
             'normal',
             'high'
         );
@@ -32,7 +32,7 @@ class EventCrafter_Admin
         global $post;
 
         if ($hook === 'post-new.php' || $hook === 'post.php') {
-            if ($post && 'ec_timeline' === $post->post_type) {
+            if ($post && 'eventcrafter_tl' === $post->post_type) {
                 wp_enqueue_media();
                 wp_enqueue_style('wp-color-picker');
                 wp_enqueue_script('wp-color-picker');
@@ -63,7 +63,7 @@ class EventCrafter_Admin
 
         // Enqueue on List Table for Copy Button
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Just checking param for enqueue, no action taken.
-        if ($hook === 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] === 'ec_timeline') {
+        if ($hook === 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] === 'eventcrafter_tl') {
             wp_enqueue_script(
                 'eventcrafter-admin-list-js',
                 EVENTCRAFTER_URL . 'assets/js/admin-script.js',
@@ -77,7 +77,7 @@ class EventCrafter_Admin
     public function render_builder_metabox($post)
     {
         // Retrieve existing data
-        $json_data = get_post_meta($post->ID, '_ec_timeline_data', true);
+        $json_data = get_post_meta($post->ID, '_eventcrafter_tl_data', true);
 
         // Default structure if empty
         if (empty($json_data)) {
@@ -88,10 +88,10 @@ class EventCrafter_Admin
         }
 
         // Hidden input to store the JSON
-        echo '<input type="hidden" id="ec_timeline_data" name="ec_timeline_data" value="' . esc_attr($json_data) . '">';
+        echo '<input type="hidden" id="eventcrafter_tl_data" name="eventcrafter_tl_data" value="' . esc_attr($json_data) . '">';
 
         // Nonce for security
-        wp_nonce_field('ec_save_timeline_data', 'ec_timeline_nonce');
+        wp_nonce_field('eventcrafter_save_tl_data', 'eventcrafter_tl_nonce');
 
         // The Builder Interface Container
         ?>
@@ -178,8 +178,8 @@ class EventCrafter_Admin
 
         // Verify Nonce
         if (
-            !isset($_POST['ec_timeline_nonce']) ||
-            !wp_verify_nonce(sanitize_key(wp_unslash($_POST['ec_timeline_nonce'])), 'ec_save_timeline_data')
+            !isset($_POST['eventcrafter_tl_nonce']) ||
+            !wp_verify_nonce(sanitize_key(wp_unslash($_POST['eventcrafter_tl_nonce'])), 'eventcrafter_save_tl_data')
         ) {
             return;
         }
@@ -188,19 +188,48 @@ class EventCrafter_Admin
             return;
         }
 
-        if (isset($_POST['ec_timeline_data'])) {
-            // Unslash first
-            // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via json_decode and re-encoded below.
-            $raw_json = wp_unslash($_POST['ec_timeline_data']);
+        if (isset($_POST['eventcrafter_tl_data'])) {
+            // Sanitize text area input first
+            $raw_json = sanitize_textarea_field(wp_unslash($_POST['eventcrafter_tl_data']));
 
-            // Sanitize: Decode to ensure it's valid JSON
+            // Validate: Decode to ensure it's valid JSON
             $decoded = json_decode($raw_json, true);
 
-            if (json_last_error() === JSON_ERROR_NONE) {
+            if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+                // Recursively sanitize the decoded data
+                $sanitized_data = $this->sanitize_timeline_data($decoded);
+                
                 // Re-encode to ensure clean JSON string storage
-                // We use wp_json_encode for better charset handling
-                update_post_meta($post_id, '_ec_timeline_data', wp_json_encode($decoded));
+                update_post_meta($post_id, '_eventcrafter_tl_data', wp_json_encode($sanitized_data));
             }
         }
+    }
+
+    /**
+     * Recursively sanitize timeline data
+     */
+    private function sanitize_timeline_data($data)
+    {
+        if (is_array($data)) {
+            $sanitized = array();
+            foreach ($data as $key => $value) {
+                $sanitized_key = sanitize_key($key);
+                if (is_array($value)) {
+                    $sanitized[$sanitized_key] = $this->sanitize_timeline_data($value);
+                } elseif (is_string($value)) {
+                    // For HTML content, use wp_kses_post, otherwise sanitize_text_field
+                    if (in_array($sanitized_key, array('description', 'content'), true)) {
+                        $sanitized[$sanitized_key] = wp_kses_post($value);
+                    } else {
+                        $sanitized[$sanitized_key] = sanitize_text_field($value);
+                    }
+                } else {
+                    // For other types (numbers, booleans), validate appropriately
+                    $sanitized[$sanitized_key] = $value;
+                }
+            }
+            return $sanitized;
+        }
+        return sanitize_text_field($data);
     }
 }

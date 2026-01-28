@@ -8,8 +8,8 @@ class EventCrafter_CPT
     public function __construct()
     {
         add_action('init', array($this, 'register_post_type'));
-        add_filter('manage_ec_timeline_posts_columns', array($this, 'set_custom_columns'));
-        add_action('manage_ec_timeline_posts_custom_column', array($this, 'custom_column_content'), 10, 2);
+        add_filter('manage_eventcrafter_tl_posts_columns', array($this, 'set_custom_columns'));
+        add_action('manage_eventcrafter_tl_posts_custom_column', array($this, 'custom_column_content'), 10, 2);
     }
 
     public function register_post_type()
@@ -52,7 +52,7 @@ class EventCrafter_CPT
             'public' => false, // Not public on frontend directly (uses shortcode)
             'show_ui' => true,
             'show_in_menu' => true,
-            'menu_position' => 5,
+            'menu_position' => 25,
             'menu_icon' => 'dashicons-excerpt-view',
             'show_in_admin_bar' => true,
             'show_in_nav_menus' => false,
@@ -61,8 +61,14 @@ class EventCrafter_CPT
             'exclude_from_search' => true,
             'publicly_queryable' => false,
             'capability_type' => 'post',
+            'capabilities' => array(
+                'edit_posts' => 'edit_posts',
+                'edit_others_posts' => 'edit_others_posts',
+                'publish_posts' => 'publish_posts',
+                'read_private_posts' => 'read_private_posts',
+            ),
         );
-        register_post_type('ec_timeline', $args);
+        register_post_type('eventcrafter_tl', $args);
     }
 
     public function set_custom_columns($columns)

@@ -5,7 +5,7 @@ jQuery(document).ready(function($) {
     if (!$('#ec-builder-app').length) return;
 
     var $container = $('#ec-events-list');
-    var $input = $('#ec_timeline_data');
+    var $input = $('#eventcrafter_tl_data');
     var $tmpl = $('#tmpl-ec-event').html();
     
     // Parse Initial Data
@@ -18,7 +18,7 @@ jQuery(document).ready(function($) {
         var raw = $input.val();
         if (raw) currentState = JSON.parse(raw);
     } catch (e) {
-        console.error('Invalid JSON in ec_timeline_data', e);
+        console.error('Invalid JSON in eventcrafter_tl_data', e);
     }
 
     // Initialize

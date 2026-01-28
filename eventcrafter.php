@@ -3,7 +3,7 @@
  * Plugin Name: EventCrafter – Responsive Timelines, Roadmaps & Events Builder
  * Plugin URI: https://github.com/TableCrafter/eventcrafter-visual-timeline
  * Description: Create beautiful vertical timelines, product roadmaps, and event history. Manage your events using the intuitive Visual Builder.
- * Version: 1.1.4
+ * Version: 1.1.7
  * Author: Fahad Murtaza
  * Author URI: https://github.com/fahdi
  * License: GPLv2 or later
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * Global Constants
  */
 if (!defined('EVENTCRAFTER_VERSION')) {
-    define('EVENTCRAFTER_VERSION', '1.1.4');
+    define('EVENTCRAFTER_VERSION', '1.1.7');
 }
 if (!defined('EVENTCRAFTER_URL')) {
     define('EVENTCRAFTER_URL', plugin_dir_url(__FILE__));
@@ -111,4 +111,75 @@ function eventcrafter_init()
 {
     EventCrafter::get_instance();
 }
-add_action('plugins_loaded', 'eventcrafter_init');
+add_action('init', 'eventcrafter_init');
+
+// Also try registering the post type directly as a backup
+add_action('init', function() {
+    if (!post_type_exists('eventcrafter_tl')) {
+        register_post_type('eventcrafter_tl', array(
+            'label' => 'Timelines',
+            'public' => false,
+            'show_ui' => true,
+            'show_in_menu' => true,
+            'menu_position' => 25,
+            'menu_icon' => 'dashicons-excerpt-view',
+            'supports' => array('title'),
+            'capability_type' => 'post',
+        ));
+    }
+}, 20); // Lower priority to run after the class
+
+
+// Activation Hook - Flush rewrite rules and handle data migration
+function eventcrafter_activate()
+{
+    // Initialize the plugin to register post types
+    EventCrafter::get_instance();
+    
+    // Handle migration from old post type name (ec_timeline) to new name (eventcrafter_timeline)
+    eventcrafter_migrate_post_type();
+    
+    // Flush rewrite rules to ensure custom post types work
+    flush_rewrite_rules();
+}
+
+// Migrate data from old post type to new post type
+function eventcrafter_migrate_post_type()
+{
+    // Use WordPress functions instead of direct database queries
+    $old_posts = get_posts(array(
+        'post_type' => 'ec_timeline',
+        'post_status' => 'any',
+        'numberposts' => -1,
+        'fields' => 'ids',
+        'suppress_filters' => false
+    ));
+    
+    if (!empty($old_posts)) {
+        foreach ($old_posts as $post_id) {
+            // Update post type using WordPress function
+            wp_update_post(array(
+                'ID' => $post_id,
+                'post_type' => 'eventcrafter_tl'
+            ));
+            
+            // Migrate meta data using WordPress functions
+            $old_meta_value = get_post_meta($post_id, '_ec_timeline_data', true);
+            if (!empty($old_meta_value)) {
+                update_post_meta($post_id, '_eventcrafter_tl_data', $old_meta_value);
+                delete_post_meta($post_id, '_ec_timeline_data');
+            }
+        }
+        
+        // Clear any object cache to ensure fresh data
+        wp_cache_flush();
+    }
+}
+register_activation_hook(__FILE__, 'eventcrafter_activate');
+
+// Deactivation Hook - Clean up rewrite rules
+function eventcrafter_deactivate()
+{
+    flush_rewrite_rules();
+}
+register_deactivation_hook(__FILE__, 'eventcrafter_deactivate');

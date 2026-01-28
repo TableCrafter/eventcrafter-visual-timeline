@@ -62,7 +62,7 @@ class EventCrafter_Renderer
     {
         // 1. Check if source is a Post ID (numeric)
         if (is_numeric($source)) {
-            $json = get_post_meta($source, '_ec_timeline_data', true);
+            $json = get_post_meta($source, '_eventcrafter_tl_data', true);
             if (empty($json)) {
                 return new WP_Error('no_data', 'No timeline data found for this ID.');
             }
