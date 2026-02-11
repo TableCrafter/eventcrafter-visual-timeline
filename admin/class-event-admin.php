@@ -54,7 +54,7 @@ class EventCrafter_Admin
                 wp_enqueue_script(
                     'eventcrafter-admin-js',
                     EVENTCRAFTER_URL . 'admin/js/builder.js',
-                    array('jquery', 'wp-color-picker'),
+                    array('jquery', 'wp-color-picker', 'jquery-ui-sortable'),
                     $this->version,
                     true
                 );

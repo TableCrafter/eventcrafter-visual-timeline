@@ -118,3 +118,88 @@
     background: #dbeafe;
     color: #1e40af;
 }
+/* Horizontal Layout */
+.eventcrafter-layout-horizontal .eventcrafter-timeline {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 30px;
+    padding: 40px 20px;
+    position: relative;
+    scrollbar-width: thin;
+}
+
+.eventcrafter-layout-horizontal .eventcrafter-timeline::before {
+    top: 50px; /* Adjust based on content height */
+    bottom: auto;
+    left: 0;
+    right: 0;
+    width: auto;
+    height: 4px;
+    background: var(--ec-line);
+    z-index: 1;
+}
+
+.eventcrafter-layout-horizontal .eventcrafter-item {
+    flex: 0 0 300px; /* Fixed width cards */
+    margin-bottom: 0;
+    padding-left: 0;
+    margin-top: 70px; /* Space for marker/line */
+    position: relative;
+}
+
+.eventcrafter-layout-horizontal .eventcrafter-marker {
+    left: 50%;
+    transform: translateX(-50%);
+    top: -30px; /* Position on the line */
+}
+
+/* Roadmap (Cards) Layout */
+.eventcrafter-layout-roadmap .eventcrafter-timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.eventcrafter-layout-roadmap .eventcrafter-timeline::before {
+    display: none; /* No connecting line for pure cards */
+}
+
+.eventcrafter-layout-roadmap .eventcrafter-item {
+    margin: 0;
+    padding: 0;
+}
+
+.eventcrafter-layout-roadmap .eventcrafter-marker {
+    display: none; /* No markers */
+}
+
+/* Responsive: Collapse Horizontal to Vertical on Mobile */
+@media (max-width: 768px) {
+    .eventcrafter-layout-horizontal .eventcrafter-timeline {
+        display: block;
+        overflow-x: visible;
+        padding: 20px 0;
+    }
+    
+    .eventcrafter-layout-horizontal .eventcrafter-timeline::before {
+        top: 0;
+        bottom: 0;
+        left: 20px;
+        right: auto;
+        width: 2px;
+        height: auto;
+    }
+
+    .eventcrafter-layout-horizontal .eventcrafter-item {
+        margin-top: 0;
+        margin-bottom: 30px;
+        padding-left: 50px;
+    }
+
+    .eventcrafter-layout-horizontal .eventcrafter-marker {
+        left: 11px;
+        top: 0;
+        transform: none;
+    }
+}

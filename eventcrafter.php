@@ -3,7 +3,7 @@
  * Plugin Name: EventCrafter – Responsive Timelines, Roadmaps & Events Builder
  * Plugin URI: https://github.com/TableCrafter/eventcrafter-visual-timeline
  * Description: Create beautiful vertical timelines, product roadmaps, and event history. Manage your events using the intuitive Visual Builder.
- * Version: 1.2.0
+ * Version: 1.3.0
  * Author: Fahad Murtaza
  * Author URI: https://github.com/fahdi
  * License: GPLv2 or later
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * Global Constants
  */
 if (!defined('EVENTCRAFTER_VERSION')) {
-    define('EVENTCRAFTER_VERSION', '1.2.0');
+    define('EVENTCRAFTER_VERSION', '1.3.0');
 }
 if (!defined('EVENTCRAFTER_URL')) {
     define('EVENTCRAFTER_URL', plugin_dir_url(__FILE__));
@@ -137,7 +137,7 @@ function eventcrafter_init()
 add_action('init', 'eventcrafter_init');
 
 // Also try registering the post type directly as a backup
-add_action('init', function() {
+add_action('init', function () {
     if (!post_type_exists('eventcrafter_tl')) {
         register_post_type('eventcrafter_tl', array(
             'label' => 'Timelines',
@@ -158,10 +158,10 @@ function eventcrafter_activate()
 {
     // Initialize the plugin to register post types
     EventCrafter::get_instance();
-    
+
     // Handle migration from old post type name (ec_timeline) to new name (eventcrafter_timeline)
     eventcrafter_migrate_post_type();
-    
+
     // Flush rewrite rules to ensure custom post types work
     flush_rewrite_rules();
 }
@@ -177,7 +177,7 @@ function eventcrafter_migrate_post_type()
         'fields' => 'ids',
         'suppress_filters' => false
     ));
-    
+
     if (!empty($old_posts)) {
         foreach ($old_posts as $post_id) {
             // Update post type using WordPress function
@@ -185,7 +185,7 @@ function eventcrafter_migrate_post_type()
                 'ID' => $post_id,
                 'post_type' => 'eventcrafter_tl'
             ));
-            
+
             // Migrate meta data using WordPress functions
             $old_meta_value = get_post_meta($post_id, '_ec_timeline_data', true);
             if (!empty($old_meta_value)) {
@@ -193,7 +193,7 @@ function eventcrafter_migrate_post_type()
                 delete_post_meta($post_id, '_ec_timeline_data');
             }
         }
-        
+
         // Clear any object cache to ensure fresh data
         wp_cache_flush();
     }

@@ -142,6 +142,30 @@ jQuery(document).ready(function($) {
         });
         
         initColorPickers();
+        initSortable();
+    }
+
+    function initSortable() {
+        if ($container.data('ui-sortable')) {
+            $container.sortable('refresh');
+            return;
+        }
+
+        $container.sortable({
+            handle: '.ec-drag-handle',
+            placeholder: 'ec-sortable-placeholder',
+            forcePlaceholderSize: true,
+            update: function(event, ui) {
+                var newOrder = [];
+                $container.find('.ec-event-card').each(function() {
+                     var id = $(this).data('id');
+                     var eventObj = currentState.events.find(function(ev) { return ev.id == id; });
+                     if (eventObj) newOrder.push(eventObj);
+                });
+                currentState.events = newOrder;
+                updateStorage();
+            }
+        });
     }
 
     function renderPreview() {

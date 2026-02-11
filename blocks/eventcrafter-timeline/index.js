@@ -31,7 +31,8 @@
 
             const layoutOptions = [
                 { value: 'vertical', label: __('Vertical', 'eventcrafter-visual-timeline') },
-                { value: 'horizontal', label: __('Horizontal', 'eventcrafter-visual-timeline') }
+                { value: 'horizontal', label: __('Horizontal', 'eventcrafter-visual-timeline') },
+                { value: 'roadmap', label: __('Roadmap (Cards)', 'eventcrafter-visual-timeline') }
             ];
 
             return el(Fragment, {},
