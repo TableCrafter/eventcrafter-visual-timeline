@@ -3,7 +3,7 @@
  * Plugin Name: EventCrafter – Responsive Timelines, Roadmaps & Events Builder
  * Plugin URI: https://github.com/TableCrafter/eventcrafter-visual-timeline
  * Description: Create beautiful vertical timelines, product roadmaps, and event history. Manage your events using the intuitive Visual Builder.
- * Version: 1.3.0
+ * Version: 1.3.1
  * Author: Fahad Murtaza
  * Author URI: https://github.com/fahdi
  * License: GPLv2 or later
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  * Global Constants
  */
 if (!defined('EVENTCRAFTER_VERSION')) {
-    define('EVENTCRAFTER_VERSION', '1.3.0');
+    define('EVENTCRAFTER_VERSION', '1.3.1');
 }
 if (!defined('EVENTCRAFTER_URL')) {
     define('EVENTCRAFTER_URL', plugin_dir_url(__FILE__));
